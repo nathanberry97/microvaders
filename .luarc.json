@@ -6,11 +6,12 @@
   },
   "runtime.nonstandardSymbol": ["+=", "-=", "*=", "/="],
   "diagnostics.globals": [
-    "playdate",
-    "json",
+    "GameManager",
+    "Laser",
     "Player",
     "SceneManager",
-    "GameManager"
+    "json",
+    "playdate"
   ],
   "diagnostics.disable": ["redefined-local"],
   "diagnostics.neededFileStatus": {
