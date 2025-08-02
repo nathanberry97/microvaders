@@ -1,11 +1,13 @@
 import "../game/Player"
 import "../game/Laser"
+import "../game/EnemyManager"
 
 class("GameManager").extends()
 
 function GameManager:init()
     self.player = Player()
     self.laser = Laser()
+    self.enemyManager = EnemyManager()
 end
 
 function GameManager:draw()
@@ -13,10 +15,12 @@ function GameManager:draw()
     gfx.clear()
 
     self.player:draw()
+    self.enemyManager:draw()
     self.laser:draw()
 end
 
 function GameManager:update()
     self.player:update()
-    self.laser:update(self.player.x, self.player.width)
+    self.enemyManager:update()
+    self.laser:update(self.player, self.enemyManager)
 end
