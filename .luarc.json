@@ -10,8 +10,10 @@
     "EnemyManager",
     "GameManager",
     "Laser",
+    "Menu",
     "Player",
     "SceneManager",
+    "UI",
     "json",
     "playdate"
   ],
