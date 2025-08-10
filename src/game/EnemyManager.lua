@@ -19,8 +19,8 @@ function EnemyManager:initaliseEnemies()
     local startY = 30
 
     for row = 0, rows - 1 do
-        local y = startY + row * (enemyHeight + vGap)
-        local x = startX
+        local targetY = startY + row * (enemyHeight + vGap)
+        local spawnY = -(rows * (enemyHeight + vGap))
 
         -- Points which enemies will give once killed
         local points
@@ -32,8 +32,9 @@ function EnemyManager:initaliseEnemies()
             points = 10
         end
 
+        local x = startX
         for _ = 1, cols do
-            table.insert(self.enemies, Enemy(x, y, points))
+            table.insert(self.enemies, Enemy(x, spawnY, targetY, points))
             x += enemyWidth + hGap
         end
     end
@@ -47,12 +48,14 @@ end
 
 function EnemyManager:direction()
     for i = 1, #self.enemies do
-        if self.enemies[i].x >= 380 then
-            self.moveRight = false
-            return true
-        elseif self.enemies[i].x <= 0 then
-            self.moveRight = true
-            return true
+        if self.enemies[i].settled then
+            if self.enemies[i].x >= 380 then
+                self.moveRight = false
+                return true
+            elseif self.enemies[i].x <= 0 then
+                self.moveRight = true
+                return true
+            end
         end
     end
     return false
@@ -65,7 +68,7 @@ function EnemyManager:update()
         local enemy = self.enemies[i]
         enemy:update(self.moveRight)
 
-        if hitwall then
+        if hitwall and enemy.settled then
             enemy.y += 2
         end
     end
