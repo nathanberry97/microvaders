@@ -20,7 +20,7 @@ function EnemyManager:initaliseEnemies()
 
     for row = 0, rows - 1 do
         local targetY = startY + row * (enemyHeight + vGap)
-        local spawnY = -(rows * (enemyHeight + vGap))
+        local spawnY = targetY - 150
 
         -- Points which enemies will give once killed
         local points
