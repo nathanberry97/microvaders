@@ -6,6 +6,7 @@ local pd <const> = playdate
 function Player:init()
     self.x, self.y = 175, 215
     self.width, self.height = 50, 10
+    self.life = 3
 end
 
 function Player:draw()

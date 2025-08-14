@@ -61,12 +61,11 @@ function EnemyManager:direction()
     return false
 end
 
-function EnemyManager:update()
+function EnemyManager:update(player)
     local hitwall = self:direction()
 
-    for i = 1, #self.enemies do
-        local enemy = self.enemies[i]
-        enemy:update(self.moveRight)
+    for _, enemy in ipairs(self.enemies) do
+        enemy:update(self.moveRight, player)
 
         if hitwall and enemy.settled then
             enemy.y += 2

@@ -5,7 +5,7 @@ local pd <const> = playdate
 
 local function checkCollision(a, b)
     return a.x < b.x + b.width and
-        a.x + b.width > b.x and
+        a.x + a.width > b.x and
         a.y < b.y + b.height and
         a.y + a.height > b.y
 end

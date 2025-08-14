@@ -5,6 +5,10 @@ import "../game/UI"
 
 class("GameManager").extends()
 
+-- TODO
+-- * Check if hit player
+-- * Need to give player health, update ui to show this
+
 function GameManager:init()
     self.player = Player()
     self.laser = Laser()
@@ -31,6 +35,14 @@ end
 
 function GameManager:update()
     self.player:update()
-    self.enemyManager:update()
+    self.enemyManager:update(self.player)
     self.laser:update(self.player, self.enemyManager, self.ui)
+
+    for _, enemy in ipairs(self.enemyManager.enemies) do
+        if enemy.y >= 200 then SM:switchScene(Menu()) end
+    end
+
+    if self.player.life == 0 then
+        SM:switchScene(Menu())
+    end
 end
