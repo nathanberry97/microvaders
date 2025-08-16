@@ -5,10 +5,6 @@ import "../game/UI"
 
 class("GameManager").extends()
 
--- TODO
--- * Check if hit player
--- * Need to give player health, update ui to show this
-
 function GameManager:init()
     self.player = Player()
     self.laser = Laser()
@@ -30,7 +26,7 @@ function GameManager:draw()
     self.player:draw()
     self.enemyManager:draw()
     self.laser:draw()
-    self.ui:draw()
+    self.ui:draw(self.player)
 end
 
 function GameManager:update()
