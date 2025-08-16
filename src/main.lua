@@ -1,15 +1,15 @@
 import "CoreLibs/object"
 import "CoreLibs/graphics"
 import "CoreLibs/sprites"
+import "scenes/Menu"
 import "SceneManager"
-import "scenes/GameManager"
 
 local pd <const> = playdate
 
-local sceneManager = SceneManager()
-sceneManager:switchScene(GameManager())
+SM = SceneManager()
+SM:switchScene(Menu())
 
 function pd.update()
-    sceneManager:update()
-    sceneManager:draw()
+    SM:update()
+    SM:draw()
 end
