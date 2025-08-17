@@ -30,15 +30,16 @@ function GameManager:draw()
 end
 
 function GameManager:update()
-    self.player:update()
+    self.player:update(self.laser.shootLaser)
     self.enemyManager:update(self.player)
     self.laser:update(self.player, self.enemyManager, self.ui)
+    self.ui:update()
 
     for _, enemy in ipairs(self.enemyManager.enemies) do
         if enemy.y >= 200 then SM:switchScene(Menu()) end
     end
 
-    if self.player.life == 0 then
+    if self.player.life < 0 then
         SM:switchScene(Menu())
     end
 end

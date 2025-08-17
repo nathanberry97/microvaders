@@ -9,6 +9,69 @@ function EnemyManager:init()
 end
 
 function EnemyManager:initaliseEnemies()
+    local squidFames = {
+        {
+            "  XX  ",
+            " XXXX ",
+            "XXXXXX",
+            "X XX X",
+            "XXXXXX",
+            " X  X ",
+            "X    X"
+        },
+        {
+            "  XX  ",
+            " XXXX ",
+            "XXXXXX",
+            "X XX X",
+            "XXXXXX",
+            "X XX X",
+            "  XX  "
+        }
+    }
+
+    local crabFrames = {
+        {
+            " XX  XX ",
+            "XXXXXXXX",
+            "XXXXXXXX",
+            " X XX X ",
+            "  XXXX  ",
+            " X XX X ",
+            "X      X"
+        },
+        {
+            " XX  XX ",
+            "XXXXXXXX",
+            "XXXXXXXX",
+            " X XX X ",
+            " XXXXXX ",
+            "X  XX  X",
+            "   XX   "
+        }
+    }
+
+    local octopusFrames = {
+        {
+            "  XXXX  ",
+            " XXXXXX ",
+            "XX XX XX",
+            "XXXXXXXX",
+            "  XXXX  ",
+            " X XX X ",
+            "X      X"
+        },
+        {
+            "  XXXX  ",
+            " XXXXXX ",
+            "XX XX XX",
+            "XXXXXXXX",
+            "  XXXX  ",
+            "X  XX  X",
+            " XX  XX "
+        }
+    }
+
     local screenWidth = 400
     local enemyWidth, enemyHeight = 20, 20
     local hGap, vGap = 10, 10
@@ -22,19 +85,21 @@ function EnemyManager:initaliseEnemies()
         local targetY = startY + row * (enemyHeight + vGap)
         local spawnY = targetY - 150
 
-        -- Points which enemies will give once killed
-        local points
+        local points, pattern
         if row == 0 then
             points = 30
+            pattern = squidFames
         elseif row == 1 then
             points = 20
+            pattern = crabFrames
         else
             points = 10
+            pattern = octopusFrames
         end
 
         local x = startX
         for _ = 1, cols do
-            table.insert(self.enemies, Enemy(x, spawnY, targetY, points))
+            table.insert(self.enemies, Enemy(x, spawnY, targetY, points, pattern))
             x += enemyWidth + hGap
         end
     end
