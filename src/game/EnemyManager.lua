@@ -9,34 +9,67 @@ function EnemyManager:init()
 end
 
 function EnemyManager:initaliseEnemies()
-    local squidPattern = {
-        "  XX  ",
-        " XXXX ",
-        "XXXXXX",
-        "X XX X",
-        "XXXXXX",
-        " X  X ",
-        "X    X"
+    local squidFames = {
+        {
+            "  XX  ",
+            " XXXX ",
+            "XXXXXX",
+            "X XX X",
+            "XXXXXX",
+            " X  X ",
+            "X    X"
+        },
+        {
+            "  XX  ",
+            " XXXX ",
+            "XXXXXX",
+            "X XX X",
+            "XXXXXX",
+            "X XX X",
+            "  XX  "
+        }
     }
 
-    local crabPattern = {
-        " XX  XX ",
-        "XXXXXXXX",
-        "XXXXXXXX",
-        " XX  XX ",
-        "  XXXX  ",
-        " X XX X ",
-        "X      X"
+    local crabFrames = {
+        {
+            " XX  XX ",
+            "XXXXXXXX",
+            "XXXXXXXX",
+            " X XX X ",
+            "  XXXX  ",
+            " X XX X ",
+            "X      X"
+        },
+        {
+            " XX  XX ",
+            "XXXXXXXX",
+            "XXXXXXXX",
+            " X XX X ",
+            " XXXXXX ",
+            "X  XX  X",
+            "   XX   "
+        }
     }
 
-    local octopusPattern = {
-        "  XXXX  ",
-        " XXXXXX ",
-        "XX XX XX",
-        "XXXXXXXX",
-        "  XXXX  ",
-        " X XX X ",
-        "X      X"
+    local octopusFrames = {
+        {
+            "  XXXX  ",
+            " XXXXXX ",
+            "XX XX XX",
+            "XXXXXXXX",
+            "  XXXX  ",
+            " X XX X ",
+            "X      X"
+        },
+        {
+            "  XXXX  ",
+            " XXXXXX ",
+            "XX XX XX",
+            "XXXXXXXX",
+            "  XXXX  ",
+            "X  XX  X",
+            " XX  XX "
+        }
     }
 
     local screenWidth = 400
@@ -52,17 +85,16 @@ function EnemyManager:initaliseEnemies()
         local targetY = startY + row * (enemyHeight + vGap)
         local spawnY = targetY - 150
 
-        -- Assign points & pattern by row
         local points, pattern
         if row == 0 then
             points = 30
-            pattern = squidPattern
+            pattern = squidFames
         elseif row == 1 then
             points = 20
-            pattern = crabPattern
+            pattern = crabFrames
         else
             points = 10
-            pattern = octopusPattern
+            pattern = octopusFrames
         end
 
         local x = startX

@@ -10,7 +10,9 @@ local function checkCollision(a, b)
 end
 
 function Enemy:init(x, y, targetY, points, alienPattern)
-    self.alienPattern = alienPattern
+    self.frames = alienPattern
+    self.currentFrame = 1
+    self.animationTimer = 0
 
     self.x, self.y = x, y
     self.width, self.height = 20, 20
@@ -25,14 +27,15 @@ function Enemy:init(x, y, targetY, points, alienPattern)
 
     self.laser = false
     self.laserX, self.laserY = nil, nil
-    self.laserWidth, self.laserHeight = 5, 10
+    self.laserWidth, self.laserHeight = 7.5, 7.5
 end
 
 function Enemy:draw()
     local size = 3
+    local pattern = self.frames[self.currentFrame]
 
-    for row = 1, #self.alienPattern do
-        local line = self.alienPattern[row]
+    for row = 1, #pattern do
+        local line = pattern[row]
         for col = 1, #line do
             if string.sub(line, col, col) == "X" then
                 gfx.fillRect(
@@ -45,7 +48,7 @@ function Enemy:draw()
     end
 
     if self.laser then
-        gfx.fillRoundRect(self.laserX, self.laserY, self.laserWidth, self.laserHeight, 2)
+        gfx.fillRoundRect(self.laserX, self.laserY, self.laserWidth, self.laserHeight, 10)
     end
 end
 
@@ -62,7 +65,7 @@ function Enemy:move(direction)
 end
 
 function Enemy:shoot()
-    if math.random(1, 1250) == 1 then
+    if math.random(1, 1000) == 1 then
         self.laser = true
         self.laserX, self.laserY = self.x, self.y
     end
@@ -74,6 +77,11 @@ function Enemy:resetLaser()
 end
 
 function Enemy:update(direction, player)
+    self.animationTimer += 1
+    if self.animationTimer % 10 == 0 then
+        self.currentFrame = (self.currentFrame % #self.frames) + 1
+    end
+
     if not self.settled then
         self.y += self.spawnSpeed
         if self.y >= self.targetY then

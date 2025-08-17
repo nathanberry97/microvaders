@@ -8,7 +8,7 @@ function UI:init()
     local numStars = 20
     local screenWidth, screenHeight = 400, 240
 
-    for i = 1, numStars do
+    for _ = 1, numStars do
         table.insert(self.stars, {
             x = math.random(0, screenWidth),
             y = math.random(0, screenHeight),
