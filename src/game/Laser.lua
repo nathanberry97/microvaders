@@ -11,15 +11,16 @@ local function checkCollision(a, b)
 end
 
 function Laser:init()
-    self.width, self.height = 10, 10
+    self.width, self.height = 5, 10
     self.x, self.y = nil, 205
+    self.radius = 1
     self.shootLaser = false
     self.laserSpeed = 6
 end
 
 function Laser:draw()
     if self.shootLaser then
-        gfx.fillRect(self.x, self.y, self.width, self.height)
+        gfx.fillRoundRect(self.x, self.y, self.width, self.height, self.radius)
     end
 end
 
@@ -51,13 +52,14 @@ function Laser:update(player, enemyManager, ui)
         for i, enemy in ipairs(enemyManager.enemies) do
             if checkCollision(self, enemy) then
                 self:reset()
-                ui:update(enemy.points)
+                ui.score += enemy.points
                 table.remove(enemyManager.enemies, i)
                 break
             end
         end
 
-        if self.y <= 0 then self:reset() end
+        if self.y <= 22 then self:reset() end
+
         self:move()
     end
 end

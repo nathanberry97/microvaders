@@ -9,11 +9,14 @@ local function checkCollision(a, b)
         a.laserY + a.laserHeight > b.y
 end
 
-function Enemy:init(x, y, targetY, points)
+function Enemy:init(x, y, targetY, points, alienPattern)
+    self.alienPattern = alienPattern
+
     self.x, self.y = x, y
     self.width, self.height = 20, 20
+
     self.right = true
-    self.velocity = 2
+    self.velocity = 3
     self.points = points
 
     self.targetY = targetY
@@ -22,14 +25,27 @@ function Enemy:init(x, y, targetY, points)
 
     self.laser = false
     self.laserX, self.laserY = nil, nil
-    self.laserWidth, self.laserHeight = 10, 10
+    self.laserWidth, self.laserHeight = 5, 10
 end
 
 function Enemy:draw()
-    gfx.fillRect(self.x, self.y, self.width, self.height)
+    local size = 3
+
+    for row = 1, #self.alienPattern do
+        local line = self.alienPattern[row]
+        for col = 1, #line do
+            if string.sub(line, col, col) == "X" then
+                gfx.fillRect(
+                    self.x + (col - 1) * size,
+                    self.y + (row - 1) * size,
+                    size, size
+                )
+            end
+        end
+    end
 
     if self.laser then
-        gfx.fillRect(self.laserX, self.laserY, self.laserWidth, self.laserHeight)
+        gfx.fillRoundRect(self.laserX, self.laserY, self.laserWidth, self.laserHeight, 2)
     end
 end
 
@@ -41,12 +57,12 @@ function Enemy:move(direction)
     end
 
     if self.laserY ~= nil then
-        self.laserY += 2
+        self.laserY += 3
     end
 end
 
 function Enemy:shoot()
-    if math.random(1, 1500) == 1 then
+    if math.random(1, 1250) == 1 then
         self.laser = true
         self.laserX, self.laserY = self.x, self.y
     end

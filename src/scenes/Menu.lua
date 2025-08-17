@@ -28,6 +28,7 @@ function Menu:draw()
     -- Set text white
     gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
     gfx.drawText(self.titleText, self.titleX, self.titleY)
+    gfx.drawText(self.titleText, self.titleX + 1, self.titleY)
 
     gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
     gfx.drawText(self.playText, self.playX, self.playY)
