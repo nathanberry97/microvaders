@@ -2,13 +2,6 @@ class("Enemy").extends()
 
 local gfx <const> = playdate.graphics
 
-local function checkCollision(a, b)
-    return a.laserX < b.x + b.width and
-        a.laserX + a.laserWidth > b.x and
-        a.laserY < b.y + b.height and
-        a.laserY + a.laserHeight > b.y
-end
-
 function Enemy:init(x, y, targetY, points, alienPattern)
     self.frames = alienPattern
     self.currentFrame = 1
@@ -98,7 +91,7 @@ function Enemy:update(direction, player)
         return
     end
 
-    local hitPlayer = checkCollision(self, player)
+    local hitPlayer = UTILS.CheckCollision(self, player)
 
     if hitPlayer then
         player.life -= 1

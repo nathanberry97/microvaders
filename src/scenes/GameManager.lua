@@ -5,6 +5,8 @@ import "../game/UI"
 
 class("GameManager").extends()
 
+UTILS = import '../game/utils'
+
 function GameManager:init()
     self.player = Player()
     self.laser = Laser()
