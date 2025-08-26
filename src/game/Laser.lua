@@ -1,4 +1,3 @@
--- import "utils"
 class("Laser").extends()
 
 local gfx <const> = playdate.graphics

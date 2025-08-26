@@ -49,7 +49,7 @@ function UI:draw(player)
 
     -- Show the current FPS
     -- local pd <const> = playdate
-    -- pd.drawFPS(380, 5)
+    -- pd.drawFPS(380, 220)
 end
 
 function UI:updateStars()

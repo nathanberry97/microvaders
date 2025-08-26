@@ -7,6 +7,7 @@
   "runtime.nonstandardSymbol": ["+=", "-=", "*=", "/="],
   "diagnostics.globals": [
     "Enemy",
+    "EnemyLaser",
     "EnemyManager",
     "GameManager",
     "Laser",

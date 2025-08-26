@@ -16,6 +16,7 @@ function Player:init()
     self.radius = 2
     self.life = 3
 
+    self.laser = Laser(true)
     self.shooting = false
 end
 
@@ -26,6 +27,8 @@ function Player:draw()
     gfx.setColor(gfx.kColorBlack)
     gfx.drawRoundRect(self.topX, self.topY, self.topWidth, self.height, self.radius)
     gfx.setColor(gfx.kColorWhite)
+
+    self.laser:draw()
 end
 
 function Player:move()
@@ -54,7 +57,8 @@ function Player:shootAnimation(laserShooting)
     end
 end
 
-function Player:update(laserShooting)
+function Player:update(enemyManager, ui)
+    self:shootAnimation(self.laser.shootLaser)
     self:move()
-    self:shootAnimation(laserShooting)
+    self.laser:update(self, enemyManager, ui)
 end

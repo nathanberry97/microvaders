@@ -9,7 +9,6 @@ UTILS = import '../game/utils'
 
 function GameManager:init()
     self.player = Player()
-    self.laser = Laser()
     self.enemyManager = EnemyManager()
     self.ui = UI()
 end
@@ -27,14 +26,12 @@ function GameManager:draw()
 
     self.player:draw()
     self.enemyManager:draw()
-    self.laser:draw()
     self.ui:draw(self.player)
 end
 
 function GameManager:update()
-    self.player:update(self.laser.shootLaser)
+    self.player:update(self.enemyManager, self.ui)
     self.enemyManager:update(self.player)
-    self.laser:update(self.player, self.enemyManager, self.ui)
     self.ui:update()
 
     for _, enemy in ipairs(self.enemyManager.enemies) do
