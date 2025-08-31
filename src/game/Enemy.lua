@@ -1,13 +1,8 @@
+import "./EnemyLaser"
+
 class("Enemy").extends()
 
 local gfx <const> = playdate.graphics
-
-local function checkCollision(a, b)
-    return a.laserX < b.x + b.width and
-        a.laserX + a.laserWidth > b.x and
-        a.laserY < b.y + b.height and
-        a.laserY + a.laserHeight > b.y
-end
 
 function Enemy:init(x, y, targetY, points, alienPattern)
     self.frames = alienPattern
@@ -25,9 +20,7 @@ function Enemy:init(x, y, targetY, points, alienPattern)
     self.spawnSpeed = 2
     self.settled = false
 
-    self.laser = false
-    self.laserX, self.laserY = nil, nil
-    self.laserWidth, self.laserHeight = 7.5, 7.5
+    self.laser = EnemyLaser()
 end
 
 function Enemy:draw()
@@ -47,9 +40,7 @@ function Enemy:draw()
         end
     end
 
-    if self.laser then
-        gfx.fillRoundRect(self.laserX, self.laserY, self.laserWidth, self.laserHeight, 10)
-    end
+    self.laser:draw()
 end
 
 function Enemy:move(direction)
@@ -58,22 +49,6 @@ function Enemy:move(direction)
     else
         self.x -= self.velocity
     end
-
-    if self.laserY ~= nil then
-        self.laserY += 3
-    end
-end
-
-function Enemy:shoot()
-    if math.random(1, 1000) == 1 then
-        self.laser = true
-        self.laserX, self.laserY = self.x, self.y
-    end
-end
-
-function Enemy:resetLaser()
-    self.laser = false
-    self.laserX, self.laserY = nil, nil
 end
 
 function Enemy:update(direction, player)
@@ -92,19 +67,5 @@ function Enemy:update(direction, player)
     end
 
     self:move(direction)
-
-    if not self.laser then
-        self:shoot()
-        return
-    end
-
-    local hitPlayer = checkCollision(self, player)
-
-    if hitPlayer then
-        player.life -= 1
-    end
-
-    if self.laserY >= 240 or hitPlayer then
-        self:resetLaser()
-    end
+    self.laser:update(player, self)
 end

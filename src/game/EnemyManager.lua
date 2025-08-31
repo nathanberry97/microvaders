@@ -2,76 +2,16 @@ import "./Enemy"
 
 class('EnemyManager').extends()
 
+ALIENS = import "../art/aliens"
+
 function EnemyManager:init()
     self.moveRight = true
     self.enemies = {}
+    self.enemiesMoveY = 3
     self:initaliseEnemies()
 end
 
 function EnemyManager:initaliseEnemies()
-    local squidFames = {
-        {
-            "  XX  ",
-            " XXXX ",
-            "XXXXXX",
-            "X XX X",
-            "XXXXXX",
-            " X  X ",
-            "X    X"
-        },
-        {
-            "  XX  ",
-            " XXXX ",
-            "XXXXXX",
-            "X XX X",
-            "XXXXXX",
-            "X XX X",
-            "  XX  "
-        }
-    }
-
-    local crabFrames = {
-        {
-            " XX  XX ",
-            "XXXXXXXX",
-            "XXXXXXXX",
-            " X XX X ",
-            "  XXXX  ",
-            " X XX X ",
-            "X      X"
-        },
-        {
-            " XX  XX ",
-            "XXXXXXXX",
-            "XXXXXXXX",
-            " X XX X ",
-            " XXXXXX ",
-            "X  XX  X",
-            "   XX   "
-        }
-    }
-
-    local octopusFrames = {
-        {
-            "  XXXX  ",
-            " XXXXXX ",
-            "XX XX XX",
-            "XXXXXXXX",
-            "  XXXX  ",
-            " X XX X ",
-            "X      X"
-        },
-        {
-            "  XXXX  ",
-            " XXXXXX ",
-            "XX XX XX",
-            "XXXXXXXX",
-            "  XXXX  ",
-            "X  XX  X",
-            " XX  XX "
-        }
-    }
-
     local screenWidth = 400
     local enemyWidth, enemyHeight = 20, 20
     local hGap, vGap = 10, 10
@@ -88,13 +28,13 @@ function EnemyManager:initaliseEnemies()
         local points, pattern
         if row == 0 then
             points = 30
-            pattern = squidFames
+            pattern = ALIENS.squidFrames
         elseif row == 1 then
             points = 20
-            pattern = crabFrames
+            pattern = ALIENS.crabFrames
         else
             points = 10
-            pattern = octopusFrames
+            pattern = ALIENS.octopusFrames
         end
 
         local x = startX
@@ -126,16 +66,31 @@ function EnemyManager:direction()
     return false
 end
 
+function EnemyManager:velocity(total, enemy)
+    if total == 30 then
+        enemy.velocity = 4
+    elseif total == 20 then
+        enemy.velocity = 5
+    elseif total == 10 then
+        enemy.velocity = 6
+    elseif total == 2 then
+        enemy.velocity = 8
+    end
+end
+
 function EnemyManager:update(player)
     local hitwall = self:direction()
+    local total = #self.enemies
 
     for _, enemy in ipairs(self.enemies) do
         enemy:update(self.moveRight, player)
 
         if hitwall and enemy.settled then
-            enemy.y += 2
+            enemy.y += self.enemiesMoveY
         end
+
+        self:velocity(total, enemy)
     end
 
-    if #self.enemies == 0 then self:initaliseEnemies() end
+    if total == 0 then self:initaliseEnemies() end
 end

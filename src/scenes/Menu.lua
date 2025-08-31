@@ -3,33 +3,43 @@ import "GameManager"
 class("Menu").extends()
 
 function Menu:init()
-    self.titleX = 145
-    self.titleBgX = 135
-    self.playX = 165
-
-    self.titleY = 30
-    self.titleBgY = 25
-    self.playY = 100
+    local gfx <const> = playdate.graphics
 
     self.titleText = "MICROVADERS"
-    self.playText = "Start Ⓐ "
+    self.playText = "Press Ⓐ to start"
+
+    local screenW, screenH = 400, 240
+    local titleW, titleH = gfx.getTextSize(self.titleText)
+    local playW, playH = gfx.getTextSize(self.playText)
+
+    self.titleX = (screenW - titleW) / 2
+    self.playX = (screenW - playW) / 2
+
+    self.titleY = 50
+    self.playY = 120
+
+    self.titleBgX = self.titleX - 10
+    self.titleBgY = self.titleY - 6
+    self.titleBgW = titleW + 20
+    self.titleBgH = titleH + 10
 end
 
 function Menu:draw()
     local gfx <const> = playdate.graphics
-    local pd <const> = playdate
 
     gfx.clear()
     gfx.setBackgroundColor(gfx.kColorBlack)
 
+    -- title background
     gfx.setColor(gfx.kColorWhite)
-    gfx.fillRoundRect(self.titleBgX, self.titleBgY, 125, 25, 10)
+    gfx.fillRoundRect(self.titleBgX, self.titleBgY, self.titleBgW, self.titleBgH, 10)
 
-    -- Set text white
+    -- title text
     gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
     gfx.drawText(self.titleText, self.titleX, self.titleY)
     gfx.drawText(self.titleText, self.titleX + 1, self.titleY)
 
+    -- play text
     gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
     gfx.drawText(self.playText, self.playX, self.playY)
 end
