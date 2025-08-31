@@ -7,6 +7,7 @@ ALIENS = import "../art/aliens"
 function EnemyManager:init()
     self.moveRight = true
     self.enemies = {}
+    self.enemiesMoveY = 3
     self:initaliseEnemies()
 end
 
@@ -65,16 +66,31 @@ function EnemyManager:direction()
     return false
 end
 
+function EnemyManager:velocity(total, enemy)
+    if total == 30 then
+        enemy.velocity = 4
+    elseif total == 20 then
+        enemy.velocity = 5
+    elseif total == 10 then
+        enemy.velocity = 6
+    elseif total == 2 then
+        enemy.velocity = 8
+    end
+end
+
 function EnemyManager:update(player)
     local hitwall = self:direction()
+    local total = #self.enemies
 
     for _, enemy in ipairs(self.enemies) do
         enemy:update(self.moveRight, player)
 
         if hitwall and enemy.settled then
-            enemy.y += 2
+            enemy.y += self.enemiesMoveY
         end
+
+        self:velocity(total, enemy)
     end
 
-    if #self.enemies == 0 then self:initaliseEnemies() end
+    if total == 0 then self:initaliseEnemies() end
 end
